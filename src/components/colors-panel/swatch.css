@@ -1,0 +1,46 @@
+.colorContainer {
+  width: 50px;
+  height: 50px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+.color {
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  z-index: 20;
+}
+
+.checkBoard {
+  position: absolute;
+  z-index: 10;
+}
+
+.close {
+  width: 13px;
+  height: 50px;
+  display: none;
+  color: #fff;
+}
+
+.close > span {
+  cursor: pointer;
+}
+
+.close > span:hover {
+  color: #fd0e42;
+}
+
+.swatch:hover > .close {
+  display: block;
+}
+
+.swatch:hover {
+  background-image: linear-gradient(
+    45deg,
+    transparent 40%,
+    rgba(222, 222, 222, 0.6)
+  );
+}
