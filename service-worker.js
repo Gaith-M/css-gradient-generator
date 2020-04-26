@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/css-gradient-generator/precache-manifest.668cd936b1bba2baa0f550df45eb1176.js"
+  "/css-gradient-generator/precache-manifest.21bc9edd7893bc7cd5459a3b1d7891ac.js"
 );
 
 self.addEventListener('message', (event) => {
