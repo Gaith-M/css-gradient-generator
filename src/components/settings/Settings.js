@@ -1,31 +1,7 @@
 import React from "react";
 import Slider from "./Slider";
-var { Checkboard } = require("react-color/lib/components/common");
-
-const STYLES = {
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  flexWrap: "wrap",
-  minHeight: "30vh",
-};
-
-const SETTINGS_AREA = {
-  flex: "1 400px",
-  display: "flex",
-  flexDirection: "column",
-  justifyContent: "center",
-  margin: "5px",
-  padding: "5px",
-};
-
-const ACTIVE_COLOR = {
-  flex: "1 140px",
-  position: "relative",
-  margin: "5px",
-  height: "30vh",
-  borderRadius: "5px",
-};
+import "./settings.css";
+import { Checkboard } from "react-color/lib/components/common";
 
 const Settings = ({
   activeColorPoints,
@@ -36,8 +12,8 @@ const Settings = ({
   handleChange,
 }) => {
   return (
-    <div style={STYLES}>
-      <div style={SETTINGS_AREA}>
+    <div className="container">
+      <div className="settings_area">
         <label>
           Gradient Angle:
           <Slider
@@ -80,17 +56,10 @@ const Settings = ({
         </div>
       </div>
 
-      <div className="activeColor" style={ACTIVE_COLOR}>
+      <div className="activeColor">
         <div
           style={{
-            borderRadius: "5px",
             background: `${activeColor}`,
-            position: "absolute",
-            top: "0",
-            left: "0",
-            bottom: "0",
-            right: "0",
-            zIndex: "100",
           }}
         ></div>
         <Checkboard

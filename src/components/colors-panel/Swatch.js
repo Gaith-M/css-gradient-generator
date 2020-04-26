@@ -1,31 +1,7 @@
 import React, { useState } from "react";
 import ColorPicker from "../ColorPicker";
 import "./swatch.css";
-var { Checkboard } = require("react-color/lib/components/common");
-
-const SWATCH_STYLE = {
-  width: 70,
-  height: 50,
-  padding: 1,
-  margin: 5,
-  display: "flex",
-  justifyContent: "space-between",
-  borderRadius: 5,
-};
-
-const OVERLAY_STYLES = {
-  popover: {
-    position: "absolute",
-    zIndex: "200",
-  },
-  cover: {
-    position: "fixed",
-    top: "0px",
-    right: "0px",
-    bottom: "0px",
-    left: "0px",
-  },
-};
+import { Checkboard } from "react-color/lib/components/common";
 
 const Swatch = ({
   id,
@@ -38,7 +14,7 @@ const Swatch = ({
   const [displayPicker, setDisplay] = useState(false);
 
   const openPicker = () => {
-    setDisplay((prevState) => !prevState);
+    setDisplay(() => true);
   };
 
   const closePicker = () => {
@@ -46,7 +22,7 @@ const Swatch = ({
   };
 
   return (
-    <div className="swatch" style={SWATCH_STYLE}>
+    <div className="swatch">
       <div
         className="colorContainer"
         style={{ border: active ? "3px solid #fff" : "3px solid #ccc" }}
@@ -62,13 +38,13 @@ const Swatch = ({
       </div>
       <div className="close">
         <span onClick={deleteColor}>
-          <i className="fa fa-times"></i>
+          <i className="fa fa-times" data-id={id}></i>
         </span>
       </div>
 
       {displayPicker ? (
-        <div style={OVERLAY_STYLES.popover}>
-          <div style={OVERLAY_STYLES.cover} onClick={closePicker} />
+        <div className="popover">
+          <div className="cover" onClick={closePicker} />
           <ColorPicker
             colorVal={colorVal}
             handleColorChange={changeColorValue}

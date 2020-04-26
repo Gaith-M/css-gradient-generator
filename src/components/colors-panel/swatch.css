@@ -33,6 +33,15 @@
   color: #fd0e42;
 }
 
+.swatch {
+  width: 70px;
+  height: 50px;
+  padding: 1px;
+  margin: 5px;
+  display: flex;
+  justify-content: space-between;
+  border-radius: 5px;
+}
 .swatch:hover > .close {
   display: block;
 }
@@ -43,4 +52,16 @@
     transparent 40%,
     rgba(222, 222, 222, 0.6)
   );
+}
+
+.popover {
+  position: absolute;
+  z-index: 200;
+}
+.cover {
+  position: fixed;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
 }

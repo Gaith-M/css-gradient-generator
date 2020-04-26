@@ -6,56 +6,43 @@ import Output from "../components/Output";
 import { createGradient, generateColor } from "../functions/functions";
 import { v4 as uuidv4 } from "uuid";
 
-const COLORS_P_AND_PREVIEW_STYLES = {
-  display: "flex",
-  flexWrap: "wrap",
-  justifyContent: "center",
-  alignItems: "center",
-};
-
 const Container = () => {
   const [state, setState] = useState({
-    activeColorIndex: 1,
-    deg: 165,
     colors: [
       {
         colorId: "c-1",
-        colorValue: "rgba(231, 201, 51, 1)",
+        colorValue: "rgba(226,112,5, 1)",
         startPos: "",
         endPos: "",
       },
       {
         colorId: "c-2",
-        colorValue: "rgba(31, 201, 151, 1)",
+        colorValue: "rgba(7,124,178, 1)",
         startPos: "",
         endPos: "",
       },
     ],
   });
 
+  const [activeColorIndex, setActiveColorIndex] = useState(0);
+  const [deg, setDeg] = useState(45);
   const [gradient, setGradient] = useState(createGradient(state.colors));
+  const [fullPreview, togglePreview] = useState(false);
 
-  const [fullPreview, setFullPreview] = useState(false);
+  const togglePreviewMode = () => togglePreview((prevState) => !prevState);
 
-  const togglePreviewMode = () => setFullPreview((prevState) => !prevState);
-
-  const changeActiveColor = async (e) => {
+  const changeActiveColor = (e) => {
     let id = e.target.id;
     let condition = (elem) => elem.colorId === id;
     let colorIndex = state.colors.findIndex(condition);
 
-    await setState((prevState) => ({
-      ...prevState,
-      activeColorIndex: colorIndex,
-    }));
+    setActiveColorIndex(() => colorIndex);
   };
 
-  const addNewColor = async () => {
+  const addNewColor = () => {
     if (state.colors.length >= 10) return;
     const newColor = generateColor();
-    await setState((prevState) => ({
-      ...prevState,
-      activeColorIndex: prevState.colors.length,
+    setState((prevState) => ({
       colors: [
         ...prevState.colors,
         {
@@ -66,70 +53,63 @@ const Container = () => {
         },
       ],
     }));
+
+    setActiveColorIndex(() => state.colors.length);
   };
 
-  const deleteColor = async (e) => {
+  const deleteColor = (e) => {
     if (state.colors.length <= 1) return;
-    let id =
-      e.target.parentElement.parentElement.parentElement.firstElementChild
-        .firstElementChild.id;
+    let id = e.target.dataset.id;
     let colorIndex = state.colors.findIndex((elem) => elem.colorId === id);
 
-    await setState((prevState) => {
-      return {
-        ...prevState,
-        activeColorIndex: 0,
-        colors: [
-          ...prevState.colors.slice(0, colorIndex),
-          ...prevState.colors.slice(colorIndex + 1),
-        ],
-      };
-    });
-  };
-
-  const changeColorValue = async (color) => {
-    await setState((prevState) => ({
+    setState((prevState) => ({
       ...prevState,
       colors: [
-        ...prevState.colors.slice(0, prevState.activeColorIndex),
+        ...prevState.colors.slice(0, colorIndex),
+        ...prevState.colors.slice(colorIndex + 1),
+      ],
+    }));
+    setActiveColorIndex(() => 0);
+  };
+
+  const changeColorValue = (color) => {
+    setState((prevState) => ({
+      ...prevState,
+      colors: [
+        ...prevState.colors.slice(0, activeColorIndex),
         {
-          ...prevState.colors[prevState.activeColorIndex],
+          ...prevState.colors[activeColorIndex],
           colorValue: `rgba(${color.rgb.r}, ${color.rgb.g}, ${color.rgb.b}, ${color.rgb.a})`,
         },
-        ...prevState.colors.slice(prevState.activeColorIndex + 1),
+        ...prevState.colors.slice(activeColorIndex + 1),
       ],
     }));
   };
 
-  const controlSliders = async (e) => {
+  const controlSliders = (e) => {
     if (state.colors.length <= 1) return;
     const { value, name } = e.target;
     if (name === "deg") {
+      setDeg(() => value);
+    } else {
       setState((prevState) => {
         return {
           ...prevState,
-          deg: value,
-        };
-      });
-    } else {
-      await setState((prevState) => {
-        return {
-          ...prevState,
           colors: [
-            ...prevState.colors.slice(0, prevState.activeColorIndex),
+            ...prevState.colors.slice(0, activeColorIndex),
             {
-              ...prevState.colors[prevState.activeColorIndex],
+              ...prevState.colors[activeColorIndex],
               [name]: value,
             },
-            ...prevState.colors.slice(prevState.activeColorIndex + 1),
+            ...prevState.colors.slice(activeColorIndex + 1),
           ],
         };
       });
     }
   };
 
-  const clearAllColorPos = async () => {
-    await setState((prevState) => {
+  const clearAllColorPos = () => {
+    setState((prevState) => {
       return {
         ...prevState,
         colors: [
@@ -143,19 +123,19 @@ const Container = () => {
     });
   };
 
-  const removeActiveColorPosPoints = async () => {
+  const removeActiveColorPosPoints = () => {
     if (state.colors.length <= 1) return;
-    await setState((prevState) => {
+    setState((prevState) => {
       return {
         ...prevState,
         colors: [
-          ...prevState.colors.slice(0, prevState.activeColorIndex),
+          ...prevState.colors.slice(0, activeColorIndex),
           {
-            ...prevState.colors[prevState.activeColorIndex],
+            ...prevState.colors[activeColorIndex],
             startPos: "",
             endPos: "",
           },
-          ...prevState.colors.slice(prevState.activeColorIndex + 1),
+          ...prevState.colors.slice(activeColorIndex + 1),
         ],
       };
     });
@@ -167,10 +147,10 @@ const Container = () => {
 
   return (
     <div>
-      <div style={COLORS_P_AND_PREVIEW_STYLES}>
+      <div className="colorsPanel_and_preview_container">
         <ColorsPanel
           colors={state.colors}
-          activeColorIndex={state.activeColorIndex}
+          activeColorIndex={activeColorIndex}
           changeActiveColor={changeActiveColor}
           addNewColor={addNewColor}
           changeColorValue={changeColorValue}
@@ -179,23 +159,23 @@ const Container = () => {
         />
         <Preview
           gradient={gradient}
-          gradDegree={state.deg}
+          gradDegree={deg}
           fullPreview={fullPreview}
           togglePreviewMode={togglePreviewMode}
         />
       </div>
       <Settings
         activeColorPoints={{
-          start: state.colors[state.activeColorIndex].startPos,
-          end: state.colors[state.activeColorIndex].endPos,
+          start: state.colors[activeColorIndex].startPos,
+          end: state.colors[activeColorIndex].endPos,
         }}
         removePoints={removeActiveColorPosPoints}
         clearAllPoints={clearAllColorPos}
-        activeColor={state.colors[state.activeColorIndex].colorValue}
-        gradDegree={state.deg}
+        activeColor={state.colors[activeColorIndex].colorValue}
+        gradDegree={deg}
         handleChange={controlSliders}
       />
-      <Output gradient={gradient} gradDegree={state.deg} />
+      <Output gradient={gradient} gradDegree={deg} />
     </div>
   );
 };

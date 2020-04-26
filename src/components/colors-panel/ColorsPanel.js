@@ -1,23 +1,6 @@
 import React from "react";
 import Swatch from "./Swatch";
-
-const NORMAL_PREVIEW = {
-  minHeight: "40vh",
-  flex: "1 240px",
-  display: "flex",
-  flexWrap: "wrap",
-  justifyContent: "flex-start",
-  alignItems: "start",
-  backgroundColor: "#101010",
-  padding: "10px",
-  margin: "5px",
-  borderRadius: "5px",
-  boxShadow: "px 2px 4px 2px #404040e6",
-};
-
-const HIDDEN = {
-  display: "none",
-};
+import "./colorsPanel.css";
 
 const ColorsPanel = ({
   colors,
@@ -29,7 +12,7 @@ const ColorsPanel = ({
   fullPreview,
 }) => {
   return (
-    <div style={fullPreview ? HIDDEN : NORMAL_PREVIEW}>
+    <div className={fullPreview ? "HIDDEN" : "NORMAL_PREVIEW"}>
       {colors.map((color, i) => {
         if (i === activeColorIndex) {
           return (

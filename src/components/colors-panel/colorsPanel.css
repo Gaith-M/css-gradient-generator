@@ -1,0 +1,17 @@
+.NORMAL_PREVIEW {
+  min-height: 40vh;
+  flex: 1 240px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+  background-color: #101010;
+  padding: 10px;
+  margin: 5px;
+  border-radius: 5px;
+  box-shadow: px 2px 4px 2px #404040e6;
+}
+
+.HIDDEN {
+  display: none;
+}

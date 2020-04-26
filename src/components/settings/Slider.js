@@ -1,13 +1,13 @@
 import React from "react";
 import "./sliderStyles.css";
 
-const SLIDER_CONTAINER = {
+const slider_container = {
   width: "100%",
 };
 
 const Slider = ({ val, handleChange, name, min, max }) => {
   return (
-    <div style={SLIDER_CONTAINER}>
+    <div className={slider_container}>
       <input
         type="range"
         min={min}
